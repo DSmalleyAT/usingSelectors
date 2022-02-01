@@ -10,4 +10,29 @@ describe('My Login application', () => {
         await expect(SecurePage.flashAlert).toHaveTextContaining(
             'You logged into a secure area!');
     });
+    it('should fail to login with invalid password', async () => {
+        await LoginPage.open();
+
+        await LoginPage.login('tomsmith', 'wrong');
+        await expect(SecurePage.flashAlert).toBeExisting();
+        await expect(SecurePage.flashAlert).toHaveTextContaining(
+            'Your password is invalid!');
+    });
+    it('should fail to login with invalid username', async () => {
+        await LoginPage.open();
+
+        await LoginPage.login('timsmoth', 'SuperSecretPassword!');
+        await expect(SecurePage.flashAlert).toBeExisting();
+        await expect(SecurePage.flashAlert).toHaveTextContaining(
+            'Your username is invalid!');
+    });
+    it('should logout', async () => {
+        await LoginPage.open();
+
+        await LoginPage.login('tomsmith', 'SuperSecretPassword!');
+        await expect(browser).toHaveUrl('https://the-internet.herokuapp.com/secure');
+        
+        await SecurePage.logout();
+        await expect(browser).toHaveUrl('https://the-internet.herokuapp.com/login');
+    });
 });

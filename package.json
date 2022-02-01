@@ -12,5 +12,8 @@
     },
     "scripts": {
         "wdio": "wdio run wdio.conf.js"
+    },
+    "dependencies": {
+        "wdio-html-nice-reporter": "^7.9.1"
     }
 }
